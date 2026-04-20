@@ -6,9 +6,12 @@ import os
 import threading
 import socket
 from winotify import Notification
+from dotenv import load_dotenv
 
 PC_ID = socket.gethostname()
-SERVER_URL = os.environ.get("SERVER_URL")
+load_dotenv()  # шукає файл .env в корені
+
+SERVER_URL = os.getenv("SERVER_URL")
 
 if not SERVER_URL:
     raise ValueError("⚠️ SERVER_URL не знайдено! Встанови в .env або в змінних Railway.")
@@ -74,7 +77,7 @@ def on_open(ws):
         while True:
             try:
                 ws.send("ping")
-                time.sleep(30)
+                time.sleep(60)
             except:
                 break
 
@@ -92,4 +95,5 @@ def start():
 
 
 if __name__ == "__main__":
+    time.sleep(120)
     start()
